@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from './Button';
+import JSZip from "jszip";
+import { saveAs } from 'file-saver';
 import { getImagePaths  } from '../util/getImagePaths';
 import HomeButton from './HomeButton';
 import ImageCollection from './ImageCollection';
@@ -15,35 +17,35 @@ export default function SimpleDownload(props) {
         .catch(err => console.log(err));
     }, []);
 
-    const downloadImages = () => {
-        fetch("http://127.0.0.1:5000/simple_search?" + new URLSearchParams({
-            keywords: props.searchText,
-            max_results: props.quantity,
-            safesearch: (props.safeSearch ? "On" : "Off"),
-            download: true
-        }))
-        .then(response => response.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'folder.zip';
-
-            // trigger the download
-            document.body.appendChild(link);
-            link.click();
-
-            // clean up the temporary link and loading state
-            document.body.removeChild(link);
-            setLoading(false);
-        })
-        .catch(err => console.log(err));
-    }
+    const downloadImagesAsZip = () => {
+        const zip = new JSZip();
+      
+        // Replace imageLinks with an array of your image links
+        const imageLinks = [
+          'http://www.1mg.com/articles/wp-content/uploads/2015/07/diagnostics-test-for-diabetic-patients-hba1c-2.jpg'
+        ];
+      
+        // Loop through each image link and add it to the zip file
+        imageLinks.forEach((link, index) => {
+          fetch(`http://localhost:3001/images/${encodeURIComponent(link)}?url=${encodeURIComponent('http://cors-anywhere.herokuapp.com/')}`)
+            .then(response => response.blob())
+            .then(blob => {
+              zip.file(`image_${index}.jpg`, blob);
+            });
+        });
+      
+        // Create the zip file and save it to the user's computer
+        zip.generateAsync({ type: 'blob' })
+          .then(blob => {
+            saveAs(blob, 'images.zip');
+          });
+      }
+      
 
 
     return (
         <div>
-            <Button handleClick={downloadImages} disabled={loading}>Download Images</Button>
+            <Button handleClick={downloadImagesAsZip} disabled={loading}>Download Images</Button>
             <HomeButton setDisplaySimpleDownload={props.setDisplaySimpleDownload}/>
             {imagePaths  
                 ? <ImageCollection imagePaths={imagePaths} /> 
