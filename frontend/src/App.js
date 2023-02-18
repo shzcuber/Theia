@@ -48,7 +48,7 @@ function MainForm() {
         </div>
         <br />
         <div id="quantity-input-container">
-          <span> 
+          <span id="quantity-span"> 
             Quantity:
           </span>
           <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />

@@ -18,6 +18,7 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  width: 50%;
 }
 
 #search-input-container,
@@ -26,6 +27,10 @@
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+#buttons > *{
+  width: 30%;
 }
 
 #search-input {
@@ -39,11 +44,20 @@
 #quantity-input-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+#quantity-span {
+  font-size: x-large;
 }
 
 #quantity-input-container > *{
-  width: 50%;
+  width: 30%;
+}
+
+#quantity-input-container > input{
+  text-align: center;
+  font-size: x-large;
 }
 
 #quantity-input-container > span{
@@ -53,5 +67,6 @@
 }
 
 input {
-  padding: 25px 20px;
+  padding: 15px 0;
+  text-align: center;
 }
