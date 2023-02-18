@@ -41,3 +41,17 @@
   display: flex;
   justify-content: space-between;
 }
+
+#quantity-input-container > *{
+  width: 50%;
+}
+
+#quantity-input-container > span{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  padding: 25px 20px;
+}

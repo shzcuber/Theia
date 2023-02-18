@@ -49,9 +49,7 @@ function MainForm() {
         <br />
         <div id="quantity-input-container">
           <span> 
-            <span style={{ textAlign:"center" }}>
-              Quantity:
-            </span>
+            Quantity:
           </span>
           <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
         </div>
