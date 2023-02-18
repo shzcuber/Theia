@@ -42,16 +42,19 @@ function MainForm() {
   
   return (
     <form id="main-page-form" onSubmit={handleSearch}>
-      <div style={{ textAlign: 'center' }}>
+      <div id="form-elements-container">
         <label>
-          Search:
-          <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+          <input id="search-input" placeholder="search" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
         </label>
         <br />
-        <label>
-          Quantity:
-          <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
-        </label>
+        <div id="quantity-input-container">
+          <label>
+          <div>
+            Quantity:
+          </div>
+            <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
+          </label>
+        </div>
         <br />
         <Button handleClick={handleSimpleSearch}>
           Simple Search
