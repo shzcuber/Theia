@@ -104,11 +104,11 @@ const imagePaths = [
 function ImageCollection(props) {
     return (
         <div>
-            {props.imagePaths.map(path => {
+            {props.imagePaths.map(path => 
                 <div>
-                    <img src={'../../public/sample_images' + path} />
+                    <img src={'sample_images/' + path} />
                 </div>
-            })}
+            )}
         </div>
     );
 };
@@ -116,8 +116,9 @@ function ImageCollection(props) {
 export default function FilteredDownload() {
     return(
         <div>
-            <title>Choose the pictures you like</title>
+            <h1>Choose the pictures you like</h1>
             <ImageCollection imagePaths={imagePaths} />
+            {/* <img src={'sample_images/1_3omzzNc.jpg'} /> */}
         </div>
     )
 }

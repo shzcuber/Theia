@@ -10,12 +10,15 @@ export default function Home(props) {
           Search Options
         </Button>
       </div>
-      <MainForm className="main-page-form" />
+      <MainForm 
+        className="main-page-form" 
+        setDisplayFilteredDownload={props.setDisplayFilteredDownload}
+      />
     </div>
   );
 };
 
-function MainForm() {
+function MainForm(props) {
   const [searchText, setSearchText] = useState('')
   const [quantity, setQuantity] = useState('')
 
@@ -31,7 +34,7 @@ function MainForm() {
 
   const handleFilteredSearch = () => {
     // hand search options
-    console.log("launching filtered search");
+    props.setDisplayFilteredDownload(true);
   };
   
   return (
