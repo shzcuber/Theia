@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
-import './MainForm.css'
+import './Home.css'
 import Button from './Button'
 
-export default function MainForm() {
+export default function Home(props) {
+  return (
+    <div>
+      <div id="search-options-button">
+        <Button handleClick={props.handleSearchOptions}>
+          Search Options
+        </Button>
+      </div>
+      <MainForm className="main-page-form" />
+    </div>
+  );
+};
+
+function MainForm() {
   const [searchText, setSearchText] = useState('')
   const [quantity, setQuantity] = useState('')
 

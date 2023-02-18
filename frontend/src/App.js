@@ -1,8 +1,9 @@
 import Button from './components/Button'
 import './App.css';
 import SearchOptions from './components/SearchOptions';
-import MainForm from './components/MainForm'
+import MainForm from './components/Home'
 import React, { useState } from 'react';
+import Home from './components/Home';
 
 function App() {
   const [color, setColor] = useState('');
@@ -24,15 +25,9 @@ function App() {
         setDisplaySearchOptions={setDisplaySearchOptions}
       />
       :
-      <div>
-        <div id="search-options-button">
-          <Button handleClick={handleSearchOptions}>
-            Search Options
-          </Button>
-        </div>
-        <MainForm className="main-page-form" />
-      </div>
-      }
+      <Home 
+        handleSearchOptions={handleSearchOptions}
+      />}
     </div>
   );
 }

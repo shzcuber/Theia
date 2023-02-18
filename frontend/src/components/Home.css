@@ -1,3 +1,14 @@
+#search-options-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+#search-options-button > button{
+  width: 100%;
+  float: right;
+}
+
 #main-page-form {
   display: flex;
   align-items: center;
