@@ -11,10 +11,12 @@ function App() {
 
   return (
     <div className="App">
-      <Button handleClick={handleSearchOptions}>
-        Search Options
-      </Button>
-      <MainForm />
+      <div id="search-options-button">
+        <Button handleClick={handleSearchOptions}>
+          Search Options
+        </Button>
+      </div>
+      <MainForm className="main-page-form" />
     </div>
   );
 }
@@ -39,7 +41,7 @@ function MainForm() {
   };
   
   return (
-    <form onSubmit={handleSearch}>
+    <form id="main-page-form" onSubmit={handleSearch}>
       <div style={{ textAlign: 'center' }}>
         <label>
           Search:
