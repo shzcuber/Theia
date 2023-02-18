@@ -27,7 +27,7 @@ export default function SearchOptions(props) {
     };
 
     const onApplyButtonClick = () => {
-
+        props.setDisplaySearchOptions(false);
     };
 
     return (
@@ -38,7 +38,7 @@ export default function SearchOptions(props) {
                 </label>
                 <select onChange={handleColorChange} name="color">
                     {colors.map(color => 
-                        <option>{color}</option>
+                        <option key={color}>{color}</option>
                     )}
                 </select>
                 <label>
@@ -46,18 +46,18 @@ export default function SearchOptions(props) {
                 </label>
                 <select onChange={handleLicenseChange} name="license">
                     {licenses.map(license => 
-                        <option>{license}</option>
+                        <option key={license}>{license}</option>
                     )}
                 </select>
                 <label>
                     Safe Search:
                 </label>
                 <select onChange={handleSafeSearchChange} name="Safe search">
-                    <option>yes</option>
-                    <option>no</option>
+                    <option key="yes">yes</option>
+                    <option key="no">no</option>
                 </select>
             </form>
-            <Button onClick={onApplyButtonClick}>
+            <Button handleClick={onApplyButtonClick}>
                 Apply
             </Button>
         </div>

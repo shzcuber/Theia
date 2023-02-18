@@ -8,20 +8,31 @@ function App() {
   const [color, setColor] = useState('');
   const [license, setLicense] = useState('');
   const [safeSearch, setSafeSearch] = useState(false);
+  const [displaySearchOptions, setDisplaySearchOptions] = useState(false);
 
   const handleSearchOptions = () => {
-    // hand search options
-    console.log("launching search options");
+    setDisplaySearchOptions(true);
   };
 
   return (
     <div className="App">
-      <div id="search-options-button">
-        <Button handleClick={handleSearchOptions}>
-          Search Options
-        </Button>
+      {displaySearchOptions ?
+      <SearchOptions 
+        setColor={setColor}
+        setLicense={setLicense}
+        setSafeSearch={setSafeSearch}
+        setDisplaySearchOptions={setDisplaySearchOptions}
+      />
+      :
+      <div>
+        <MainForm className="main-page-form" />
+        <div id="search-options-button">
+          <Button handleClick={handleSearchOptions}>
+            Search Options
+          </Button>
+        </div>
       </div>
-      <MainForm className="main-page-form" />
+      }
     </div>
   );
 }
