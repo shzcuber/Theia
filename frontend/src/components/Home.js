@@ -13,14 +13,17 @@ export default function Home(props) {
       <MainForm 
         className="main-page-form" 
         setDisplayFilteredDownload={props.setDisplayFilteredDownload}
+        setDisplaySimpleDownload={props.setDisplaySimpleDownload}
+        setQuantity={props.setQuantity}
+        quantity={props.quantity}
+        searchText={props.searchText}
+        setSearchText={props.setSearchText}
       />
     </div>
   );
 };
 
 function MainForm(props) {
-  const [searchText, setSearchText] = useState('')
-  const [quantity, setQuantity] = useState('')
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -28,8 +31,8 @@ function MainForm(props) {
   };
 
   const handleSimpleSearch = () => {
-    // hand search options
-    console.log("launching simple search");
+    console.log("LOLL")
+    props.setDisplaySimpleDownload(true);
   };
 
   const handleFilteredSearch = () => {
@@ -41,14 +44,14 @@ function MainForm(props) {
     <form id="main-page-form" onSubmit={handleSearch}>
       <div id="form-elements-container">
         <div id="search-input-container">
-            <input id="search-input" placeholder="search" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+            <input id="search-input" placeholder="search" type="text" value={props.searchText} onChange={(e) => props.setSearchText(e.target.value)} />
         </div>
         <br />
         <div id="quantity-input-container">
           <span id="quantity-span"> 
             Quantity:
           </span>
-          <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
+          <input type="number" max="100" value={props.quantity} onChange={(e) => props.setQuantity(parseInt(e.target.value))} />
         </div>
         <br />
         <div id="buttons">

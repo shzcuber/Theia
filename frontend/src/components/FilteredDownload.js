@@ -1,4 +1,6 @@
 import React from 'react';
+import ImageCollection from './ImageCollection';
+import Button from './Button';
 import './FilteredDownload.css'
 
 const imagePaths = [
@@ -102,19 +104,12 @@ const imagePaths = [
     "9_c6bf0b16bd746fa2bd7f8bcfeae8e23e--mustache-cat-hipster-cat.jpg"
 ]
 
-function ImageCollection(props) {
-    return (
-        <div id="filtered-download-images-container">
-            {props.imagePaths.map(path => 
-                <img src={'sample_images/' + path} />
-            )}
-        </div>
-    );
-};
-
 export default function FilteredDownload() {
     return(
         <div id="filtered-download-container">
+            <div id="filtered-download-back-button-container">
+                <Button id="filtered-download-back-button"> Back </Button>
+            </div>
             <h1>Choose the pictures you like</h1>
             <ImageCollection imagePaths={imagePaths} />
         </div>

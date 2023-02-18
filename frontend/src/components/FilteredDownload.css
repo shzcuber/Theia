@@ -5,15 +5,14 @@
     align-items: center;
 }
 
-#filtered-download-images-container {
-    display: flex;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    width: 100%;
+Button {
+  width: 100%;
+  float: right;
+  padding: 100% inherit;
 }
 
-img {
-    width: 20%;
-    max-height: 20vw;
-    margin: 20px;
+#filtered-download-back-button-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
