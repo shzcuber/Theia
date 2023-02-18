@@ -49,28 +49,32 @@ export default function SearchOptions(props) {
     return (
         <div id="container">
             <form id="search-options-form">
-                <Select 
-                    name="Color: "
-                    onChange={handleColorChange}
-                    items={colors}
-                />
-                <Select 
-                    name="License: "
-                    onChange={handleLicenseChange}
-                    items={licenses}
-                />
-                <div label="safe-search">
-                    <label>
-                        Safe Search:
-                    </label>
-                    <select onChange={handleSafeSearchChange} name="Safe search">
-                        <option key="yes">yes</option>
-                        <option key="no">no</option>
-                    </select>
+                <div id="select-containers">
+                    <Select 
+                        name="Color: "
+                        onChange={handleColorChange}
+                        items={colors}
+                    />
+                    <Select 
+                        name="License: "
+                        onChange={handleLicenseChange}
+                        items={licenses}
+                    />
+                    <div label="safe-search">
+                        <label>
+                            Safe Search:
+                        </label>
+                        <select onChange={handleSafeSearchChange} name="Safe search">
+                            <option key="yes">yes</option>
+                            <option key="no">no</option>
+                        </select>
+                    </div>
                 </div>
-                <Button handleClick={onApplyButtonClick}>
-                    Apply
-                </Button>
+                <div id="button-container">
+                    <Button handleClick={onApplyButtonClick}>
+                        Apply
+                    </Button>
+                </div>
             </form>
         </div>
     );
