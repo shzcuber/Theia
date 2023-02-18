@@ -17,5 +17,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; 
+  margin: 0 auto;
+}
+
+#search-input-container,
+#quantity-input-container,
+#buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#search-input {
+  width: 100%;
+}
+
+#search-input-container label {
+  padding: 0;
+}
+
+#quantity-input-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

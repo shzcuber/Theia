@@ -44,18 +44,16 @@ function MainForm() {
     <form id="main-page-form" onSubmit={handleSearch}>
       <div id="form-elements-container">
         <div id="search-input-container">
-          <label>
             <input id="search-input" placeholder="search" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-          </label>
         </div>
         <br />
         <div id="quantity-input-container">
-          <label>
-            <span> 
+          <span> 
+            <span style={{ textAlign:"center" }}>
               Quantity:
             </span>
-            <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
-          </label>
+          </span>
+          <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
         </div>
         <br />
         <div id="buttons">
