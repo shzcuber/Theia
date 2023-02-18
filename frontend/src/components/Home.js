@@ -31,27 +31,28 @@ function MainForm(props) {
   };
 
   const handleSimpleSearch = () => {
-    console.log("LOLL")
-    props.setDisplaySimpleDownload(true);
+    if(props.searchText != "" && props.quantity != "")
+      props.setDisplaySimpleDownload(true);
   };
 
   const handleFilteredSearch = () => {
     // hand search options
-    props.setDisplayFilteredDownload(true);
+    if(props.searchText != "" && props.quantity != "")
+      props.setDisplayFilteredDownload(true);
   };
   
   return (
     <form id="main-page-form" onSubmit={handleSearch}>
       <div id="form-elements-container">
         <div id="search-input-container">
-            <input id="search-input" placeholder="search" type="text" value={props.searchText} onChange={(e) => props.setSearchText(e.target.value)} />
+            <input id="search-input" placeholder="search" type="text" value={props.searchText} onChange={(e) => props.setSearchText(e.target.value)} required />
         </div>
         <br />
         <div id="quantity-input-container">
           <span id="quantity-span"> 
             Quantity:
           </span>
-          <input type="number" max="100" value={props.quantity} onChange={(e) => props.setQuantity(parseInt(e.target.value))} />
+          <input type="number" max="100" value={props.quantity} onChange={(e) => props.setQuantity(parseInt(e.target.value))} required />
         </div>
         <br />
         <div id="buttons">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ImageCollection from './ImageCollection';
 
 export default function SimpleDownload(props) {
-    const [imagePaths, setImagePaths] = useState(null)
+    const [imagePaths, setImagePaths] = useState(null);
 
     useEffect(() => {
         console.log("using effect")
