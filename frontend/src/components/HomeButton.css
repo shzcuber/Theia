@@ -1,0 +1,11 @@
+Button {
+    float: right;
+    padding: 100% inherit;
+    width: 30%;
+}
+
+#home-button-container {
+    width: 100%;
+    right: 10px;
+    top: 10px;
+}

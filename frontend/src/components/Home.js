@@ -27,7 +27,6 @@ function MainForm(props) {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    // handle search logic
   };
 
   const handleSimpleSearch = () => {
@@ -36,7 +35,6 @@ function MainForm(props) {
   };
 
   const handleFilteredSearch = () => {
-    // hand search options
     if(props.searchText != "" && props.quantity != "")
       props.setDisplayFilteredDownload(true);
   };

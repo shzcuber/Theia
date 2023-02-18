@@ -24,9 +24,12 @@ function App() {
   };
 
   if(displayFilteredDownload)
-    return (<FilteredDownload />);
+    return (<FilteredDownload 
+              setDisplayFilteredDownload={setDisplayFilteredDownload}
+            />);
   else if(displaySimpleDownload)
     return (<SimpleDownload 
+            setDisplaySimpleDownload={setDisplaySimpleDownload}
             searchText={searchText}
             safeSearch={safeSearch}
             quantity={quantity}

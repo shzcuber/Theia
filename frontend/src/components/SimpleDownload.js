@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import HomeButton from './HomeButton';
 import ImageCollection from './ImageCollection';
 
 export default function SimpleDownload(props) {
@@ -18,6 +19,14 @@ export default function SimpleDownload(props) {
         .catch(err => console.log(err));
     }, []);
 
-    if(!imagePaths) return "Loading";
-    else return <ImageCollection imagePaths={imagePaths} />;
+
+    return (
+        <div>
+            <HomeButton setDisplaySimpleDownload={props.setDisplaySimpleDownload}/>
+            {imagePaths  
+                ? <ImageCollection imagePaths={imagePaths} /> 
+                : "Loading"
+            }
+        </div>
+    );
 }
