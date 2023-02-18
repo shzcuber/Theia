@@ -25,12 +25,12 @@ function App() {
       />
       :
       <div>
-        <MainForm className="main-page-form" />
         <div id="search-options-button">
           <Button handleClick={handleSearchOptions}>
             Search Options
           </Button>
         </div>
+        <MainForm className="main-page-form" />
       </div>
       }
     </div>
