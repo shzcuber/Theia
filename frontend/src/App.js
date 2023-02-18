@@ -43,9 +43,11 @@ function MainForm() {
   return (
     <form id="main-page-form" onSubmit={handleSearch}>
       <div id="form-elements-container">
-        <label>
-          <input id="search-input" placeholder="search" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-        </label>
+        <div id="search-input-container">
+          <label>
+            <input id="search-input" placeholder="search" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+          </label>
+        </div>
         <br />
         <div id="quantity-input-container">
           <label>
