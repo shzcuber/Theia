@@ -49,17 +49,21 @@ function MainForm() {
         <br />
         <div id="quantity-input-container">
           <label>
-            Quantity:
+            <span> 
+              Quantity:
+            </span>
             <input type="number" max="100" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
           </label>
         </div>
         <br />
-        <Button handleClick={handleSimpleSearch}>
-          Simple Search
-        </Button>
-        <Button handleClick={handleFilteredSearch}>
-          Filtered Search
-        </Button>
+        <div id="buttons">
+          <Button handleClick={handleSimpleSearch}>
+            Simple Search
+          </Button>
+          <Button handleClick={handleFilteredSearch}>
+            Filtered Search
+          </Button>
+        </div>
       </div>
     </form>
   );
