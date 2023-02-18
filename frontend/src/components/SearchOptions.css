@@ -1,0 +1,24 @@
+#container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#search-options-form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 50%;
+}
+
+#search-options-form > div {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+#search-options-form > div > *{
+    width: 50%;
+    text-align: center;
+}

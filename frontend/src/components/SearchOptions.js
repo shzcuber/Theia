@@ -1,3 +1,4 @@
+import "./SearchOptions.css"
 import React, { useState } from 'react';
 import Button from './Button';
 
@@ -12,6 +13,21 @@ const licenses = [
     'cc-by',
     'cc by-sa'
 ];
+
+function Select(props) {
+    return (
+        <div>
+            <label>
+                { props.name }
+            </label>
+            <select onChange={props.onChange} name={props.name}>
+                {props.items.map(item => 
+                    <option key={item}>{item}</option>
+                )}
+            </select>
+        </div>
+    );
+}
 
 export default function SearchOptions(props) {
     const handleColorChange = (event) => {
@@ -33,33 +49,29 @@ export default function SearchOptions(props) {
     return (
         <div id="container">
             <form id="search-options-form">
-                <label>
-                    Color:
-                </label>
-                <select onChange={handleColorChange} name="color">
-                    {colors.map(color => 
-                        <option key={color}>{color}</option>
-                    )}
-                </select>
-                <label>
-                    License:
-                </label>
-                <select onChange={handleLicenseChange} name="license">
-                    {licenses.map(license => 
-                        <option key={license}>{license}</option>
-                    )}
-                </select>
-                <label>
-                    Safe Search:
-                </label>
-                <select onChange={handleSafeSearchChange} name="Safe search">
-                    <option key="yes">yes</option>
-                    <option key="no">no</option>
-                </select>
+                <Select 
+                    name="Color: "
+                    onChange={handleColorChange}
+                    items={colors}
+                />
+                <Select 
+                    name="License: "
+                    onChange={handleLicenseChange}
+                    items={licenses}
+                />
+                <div label="safe-search">
+                    <label>
+                        Safe Search:
+                    </label>
+                    <select onChange={handleSafeSearchChange} name="Safe search">
+                        <option key="yes">yes</option>
+                        <option key="no">no</option>
+                    </select>
+                </div>
+                <Button handleClick={onApplyButtonClick}>
+                    Apply
+                </Button>
             </form>
-            <Button handleClick={onApplyButtonClick}>
-                Apply
-            </Button>
         </div>
     );
 };
