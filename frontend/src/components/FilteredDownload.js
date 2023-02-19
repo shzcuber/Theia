@@ -9,8 +9,11 @@ import './FilteredDownload.css'
 function DisplayPredictions(props) {
     const [displayImages, setDisplayImages] = useState(false)
     const [imagesToGenerate, setImagesToGenerate] = useState(false)
+    const [loadingDisplayImages, setLoadingDisplayImages] = useState(false)
 
     const handleButtonClick = () => {
+        setLoadingDisplayImages(true);
+        setDisplayImages(true);
         fetch("http://127.0.0.1:5000/generate?" + new URLSearchParams({
             keywords: props.searchText,
             max_results: imagesToGenerate,
@@ -18,7 +21,8 @@ function DisplayPredictions(props) {
         }))
         .then(response => response.json())
         .then(imagePaths => props.setImagePaths(imagePaths))
-        .then(setDisplayImages(true))
+        .then(() => setDisplayImages(true))
+        .then(() => setLoadingDisplayImages(false))
         .catch(err => {
             console.log(err)
         });
@@ -26,7 +30,14 @@ function DisplayPredictions(props) {
 
     return (<div>
                 {displayImages 
-                    ? <ImageCollection imagePaths={props.imagePaths}/>
+                    ? 
+                    <div>
+                        {loadingDisplayImages 
+                            ? "Loading images"
+                            : <ImageCollection imagePaths={props.imagePaths}/>
+                        }
+                   
+                    </div>
                     : 
                     <div>
                         How many images would you like to generate with the model?
