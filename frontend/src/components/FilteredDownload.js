@@ -8,25 +8,31 @@ import './FilteredDownload.css'
 
 function DisplayPredictions(props) {
     const [displayImages, setDisplayImages] = useState(false)
+    const [imagesToGenerate, setImagesToGenerate] = useState(false)
 
-    useEffect(() => {
+    const handleButtonClick = () => {
         fetch("http://127.0.0.1:5000/generate?" + new URLSearchParams({
             keywords: props.searchText,
-            max_results: parseInt(props.max_results),
+            max_results: imagesToGenerate,
             safesearch: (props.safeSearch ? "On" : "Off"),
         }))
         .then(response => response.json())
-        .then(imagePaths => console.log(imagePaths))
+        .then(imagePaths => props.setImagePaths(imagePaths))
         .then(setDisplayImages(true))
         .catch(err => {
             console.log(err)
         });
-    }, []);
+    }
 
     return (<div>
                 {displayImages 
                     ? <ImageCollection imagePaths={props.imagePaths}/>
-                    : <div>Loading</div>}
+                    : 
+                    <div>
+                        How many images would you like to generate with the model?
+                        <input onChange={(e) => setImagesToGenerate(e.target.value)} type="number" max="100" min="0"/>
+                        <Button handleClick={handleButtonClick}>Submit</Button>
+                    </div>}
             </div>);
 }
 
