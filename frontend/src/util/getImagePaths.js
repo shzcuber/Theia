@@ -6,5 +6,8 @@ export function getImagePaths(searchText, quantity, safeSearch) {
     }))
     .then(response => response.json())
     .then(response => response.map(item => item['image']))
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err)
+        return "";
+    });
 }
