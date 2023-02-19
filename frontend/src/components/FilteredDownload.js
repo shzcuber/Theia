@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import Button from './Button';
 import { getImagePaths } from '../util/getImagePaths';
-import ImageCollection from './ImageCollection';
+import { downloadImagesAsZip } from '../util/downloadImagesAsZip';
 import HomeButton from './HomeButton';
 import './FilteredDownload.css'
 
 
 function ImageCollectionWithSelect(props) {
-    // {'path': true/false}
+
     const handleClickImage = (path, e) => {
         e.preventDefault();
         const prevVal = document.getElementById(path).style.display;
@@ -30,6 +31,12 @@ export default function FilteredDownload(props) {
     const [imagePaths, setImagePaths] = useState(null);
     const [displayX, setDisplayX] = useState({})
 
+    const downloadAndFilterImagesAsZip = (imagePaths, e) => {
+        e.preventDefault();
+        let filteredImagePaths = imagePaths.filter(path => document.getElementById(path).style.display!='block');
+        return downloadImagesAsZip(filteredImagePaths);
+    }
+
     useEffect(() => {
         getImagePaths(props.searchText, props.quantity, props.safeSearch)
         .then(imagePaths => {
@@ -44,6 +51,7 @@ export default function FilteredDownload(props) {
     return(
         <div id="filtered-download-container">
             <HomeButton setDisplayFilteredDownload={props.setDisplayFilteredDownload}/>
+            <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Download Images</Button>
             <h1>Choose the pictures you like</h1>
             {imagePaths  
                 ? <ImageCollectionWithSelect setDisplayX={setDisplayX} displayX={displayX} imagePaths={imagePaths} /> 
