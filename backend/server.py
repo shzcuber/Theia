@@ -18,7 +18,6 @@ CORS(app)
 
 @app.get("/simple_search")
 def hello_world():
-    print(request.args)
     keywords = request.args.get('keywords') 
     if(not keywords):
         return "INVALID REQUEST"
@@ -63,18 +62,21 @@ def train():
     content_type = request.headers.get('Content-Type')
     unwantedImages = request.json.get('unwantedImages')
     wantedImages = request.json.get('wantedImages')
+
     dset = []
 
     for (index, url) in enumerate(wantedImages):
         dest = f"wanted_{index}"
         download_image(url, 'data/', dest)
         file_path = 'data/' + dest + '.jpg'
+        dset.append(file_path)
         delete_img(file_path, index) # delete if faulty
         sleep(10)
     for (index, url) in enumerate(unwantedImages):
         dest = f"unwanted_{index}"
         download_image(url, 'data/', dest)
         file_path = 'data/' + dest + '.jpg'
+        dset.append(file_path)
         delete_img(file_path, index) # delete if faulty
         sleep(10)
 
@@ -97,4 +99,39 @@ def train():
     global learn
     learn = vision_learner(dls, resnet34, metrics=error_rate)
     learn.fine_tune(3)
-    return content_type
+    
+    # clean data
+    for file_path in dset:
+      try: os.remove(file_path)
+      except: pass
+    
+    return "Successfully trained model"
+
+@app.route('/generate')
+def generate():
+    total = request.args.get('total') # total images to generate
+    keywords = request.args.get('keywords') 
+    if(not keywords):
+        return "INVALID REQUEST"
+
+    safesearch = request.args.get('safesearch') or "Off" # On or Off
+    max_results = int(request.args.get('max_results')) or 100
+    wantedImages = 0
+
+    def isWanted(imagePath):
+        download_image(imagePath, 'data/', 'test')
+        return learn.predict(imagePath)=='wanted'
+
+    wantedImagePaths = []
+    page=0
+    while wantedImages<total:
+        images = ddg_images(keywords, region='wt-wt', safesearch=safesearch, size=None, page=page,
+                    color='Monochrome', type_image=None, layout=None, license_image=None, max_results=max_results)
+        for image in images:
+            image = image['image']
+            if isWanted(image):
+                wantedImagePaths.append()
+                wantedImages+=1
+        page+=1
+
+    return wantedImagePaths

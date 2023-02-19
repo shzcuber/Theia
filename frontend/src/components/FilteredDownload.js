@@ -30,11 +30,21 @@ function ImageCollectionWithSelect(props) {
 export default function FilteredDownload(props) {
     const [imagePaths, setImagePaths] = useState(null);
     const [displayX, setDisplayX] = useState({})
+    const [displayTrain, setDisplayTrain] = useState(false)
 
+    // const cors_url = 'https://cors-anywhere.herokuapp.com/';
     const downloadAndFilterImagesAsZip = (imagePaths, e) => {
         e.preventDefault();
-        let filteredImagePaths = imagePaths.filter(path => document.getElementById(path).style.display!='block');
-        return downloadImagesAsZip(filteredImagePaths);
+        let wantedImages = imagePaths.filter(path => document.getElementById(path).style.display!='block');
+        let unwantedImages = imagePaths.filter(path => !wantedImages.includes(path));
+        fetch('http://127.0.0.1:5000/train', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ wantedImages: wantedImages, unwantedImages: unwantedImages })
+        });
+        setDisplayTrain(true);
     }
 
     useEffect(() => {
@@ -51,7 +61,7 @@ export default function FilteredDownload(props) {
     return(
         <div id="filtered-download-container">
             <HomeButton setDisplayFilteredDownload={props.setDisplayFilteredDownload}/>
-            <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Download Images</Button>
+            <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Start training</Button>
             <h1>Choose the pictures you like</h1>
             {imagePaths  
                 ? <ImageCollectionWithSelect setDisplayX={setDisplayX} displayX={displayX} imagePaths={imagePaths} /> 
