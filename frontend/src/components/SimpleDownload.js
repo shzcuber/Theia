@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from './Button';
-import JSZip from "jszip";
-import { saveAs } from 'file-saver';
 import { getImagePaths  } from '../util/getImagePaths';
+import { downloadImagesAsZip } from '../util/downloadImagesAsZip';
 import HomeButton from './HomeButton';
 import ImageCollection from './ImageCollection';
 
@@ -38,36 +37,9 @@ export default function SimpleDownload(props) {
         .catch(err => console.log(err));
     }, []);
 
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
-    const downloadImagesAsZip = () => {
-      Promise.all(
-        imagePaths.map((imageUrl) => {
-          const url = `${proxyUrl}${imageUrl}`;
-          return fetch(url).then((response) => response.blob());
-        })
-      )
-        .then((blobs) => {
-          const zip = new JSZip();
-          blobs.forEach((blob, index) => {
-            zip.file(`image${index}.jpg`, blob);
-          });
-          return zip.generateAsync({ type: 'blob' });
-        })
-        .then((content) => {
-          saveAs(content, 'images.zip');
-        })
-        .catch((error) => {
-          console.error('Error downloading images', error);
-        });
-    };
-    
-  
-
-
     return (
         <div>
-            <Button handleClick={downloadImagesAsZip} disabled={loading}>Download Images</Button>
+            <Button handleClick={()=>downloadImagesAsZip(imagePaths)} disabled={loading}>Download Images</Button>
             <HomeButton setDisplaySimpleDownload={props.setDisplaySimpleDownload}/>
             {imagePaths  
                 ? <ImageCollection imagePaths={imagePaths} /> 
