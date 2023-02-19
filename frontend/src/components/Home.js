@@ -47,7 +47,7 @@ function MainForm(props) {
   return (
     <form id="main-page-form" onSubmit={handleSearch}>
       <div id="form-elements-container">
-        <h1 id="home-title">Thiea</h1>
+        <h1 id="home-title">Theia</h1>
         <div id="search-input-container">
             <input id="search-input" placeholder="search" type="text" value={props.searchText} onChange={(e) => props.setSearchText(e.target.value)} required />
         </div>
