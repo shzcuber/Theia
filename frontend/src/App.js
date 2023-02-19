@@ -3,16 +3,20 @@ import './App.css';
 import FilteredDownload from './components/FilteredDownload'
 import SearchOptions from './components/SearchOptions';
 import MainForm from './components/Home'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Home from './components/Home';
 import SimpleDownload from './components/SimpleDownload';
 
 function App() {
-  const [color, setColor] = useState('');
-  const [license, setLicense] = useState('');
+  const [color, setColor] = useState('monochrome');
+  const [license, setLicense] = useState('any');
   const [safeSearch, setSafeSearch] = useState(false);
   const [searchText, setSearchText] = useState('')
   const [quantity, setQuantity] = useState('')
+
+  useEffect(() => {
+    console.log(color, license, safeSearch)
+  }, [color, license, safeSearch])
 
   // routing
   const [displaySearchOptions, setDisplaySearchOptions] = useState(false);
@@ -29,6 +33,8 @@ function App() {
               searchText={searchText}
               safeSearch={safeSearch}
               quantity={quantity}
+              color={color}
+              license={license}
             />);
   }
   else if(displaySimpleDownload)
@@ -37,6 +43,8 @@ function App() {
               searchText={searchText}
               safeSearch={safeSearch}
               quantity={quantity}
+              color={color}
+              license={license}
             />);
   else if(displaySearchOptions)
     return (

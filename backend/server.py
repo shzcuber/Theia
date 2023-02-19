@@ -24,9 +24,11 @@ def hello_world():
 
     safesearch = request.args.get('safesearch') or "Off" # On or Off
     max_results = int(request.args.get('max_results')) or 100
+    license = request.args.get("license") or "None"
+    color = request.args.get("color") or "None"
 
     return jsonify(ddg_images(keywords, region='wt-wt', safesearch=safesearch, size=None,
-                color='Monochrome', type_image=None, layout=None, license_image=None, max_results=max_results))
+                color=color, type_image=None, layout=None, license_image=license, max_results=max_results))
 
 @app.route('/image/<path:url>')
 def get_image(url):

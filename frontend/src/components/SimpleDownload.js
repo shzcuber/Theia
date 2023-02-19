@@ -10,7 +10,7 @@ export default function SimpleDownload(props) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getImagePaths(props.searchText, props.quantity, props.safeSearch)
+        getImagePaths(props.searchText, props.quantity, props.safeSearch, props.color, props.license)
         .then(imagePaths => setImagePaths(imagePaths))
         .catch(err => console.log(err));
     }, []);

@@ -1,17 +1,31 @@
 import "./SearchOptions.css"
-import React, { useState } from 'react';
+import React, { useEffect} from 'react';
 import Button from './Button';
 
 const colors = [
-    'monochrome', 
-    'blue',
-    'black'
+    'color', 
+    'Monochrome', 
+    'Red', 
+    'Orange', 
+    'Yellow', 
+    'Green', 
+    'Blue', 
+    'Purple', 
+    'Pink', 
+    'Brown', 
+    'Black', 
+    'Gray', 
+    'Teal', 
+    'White'
 ];
 
 const licenses = [
-    'creative commons', 
-    'cc-by',
-    'cc by-sa'
+    'any', 
+    'Public', 
+    'Share', 
+    'ShareCommercially', 
+    'Modify', 
+    'ModifyCommercially' 
 ];
 
 function Select(props) {
@@ -64,7 +78,8 @@ export default function SearchOptions(props) {
                         <label>
                             Safe Search:
                         </label>
-                        <select onChange={handleSafeSearchChange} name="Safe search">
+                        <select onChange={handleSafeSearchChange} 
+                                name="Safe search">
                             <option key="yes">yes</option>
                             <option key="no">no</option>
                         </select>
