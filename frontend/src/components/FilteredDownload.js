@@ -35,6 +35,7 @@ export default function FilteredDownload(props) {
     // const cors_url = 'https://cors-anywhere.herokuapp.com/';
     const downloadAndFilterImagesAsZip = (imagePaths, e) => {
         e.preventDefault();
+        setDisplayTrain(true);
         let wantedImages = imagePaths.filter(path => document.getElementById(path).style.display!='block');
         let unwantedImages = imagePaths.filter(path => !wantedImages.includes(path));
         fetch('http://127.0.0.1:5000/train', {
@@ -61,11 +62,17 @@ export default function FilteredDownload(props) {
     return(
         <div id="filtered-download-container">
             <HomeButton setDisplayFilteredDownload={props.setDisplayFilteredDownload}/>
-            <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Start training</Button>
-            <h1>Choose the pictures you like</h1>
-            {imagePaths  
-                ? <ImageCollectionWithSelect setDisplayX={setDisplayX} displayX={displayX} imagePaths={imagePaths} /> 
-                : "Loading"
+            {displayTrain 
+                ? "Training! Please be patient" 
+                : 
+                <div>
+                    <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Start training</Button>
+                    <h1>Choose the pictures you like</h1>
+                    {imagePaths  
+                        ? <ImageCollectionWithSelect setDisplayX={setDisplayX} displayX={displayX} imagePaths={imagePaths} /> 
+                        : "Loading"
+                    }
+                </div>
             }
         </div>
     )

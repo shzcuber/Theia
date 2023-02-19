@@ -107,6 +107,13 @@ def train():
     
     return "Successfully trained model"
 
+@app.route('/predict')
+def predict():
+    imagePath = request.args.get('imagePath') # link to img
+    download_image(imagePath, 'data/', 'test')
+    return learn.predict(imagePath)=='wanted'
+   
+
 @app.route('/generate')
 def generate():
     total = request.args.get('total') # total images to generate
