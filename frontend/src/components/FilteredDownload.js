@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import Button from './Button';
 import { getImagePaths } from '../util/getImagePaths';
-import { downloadImagesAsZip } from '../util/downloadImagesAsZip';
 import HomeButton from './HomeButton';
+import ImageCollection from './ImageCollection';
 import './FilteredDownload.css'
 
 
-function ImageCollectionWithSelect(props) {
+function DisplayPredictions(props) {
+    const [displayImages, setDisplayImages] = useState(false)
 
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/generate?" + new URLSearchParams({
+            keywords: props.searchText,
+            max_results: parseInt(props.max_results),
+            safesearch: (props.safeSearch ? "On" : "Off"),
+        }))
+        .then(response => response.json())
+        .then(imagePaths => console.log(imagePaths))
+        .then(setDisplayImages(true))
+        .catch(err => {
+            console.log(err)
+        });
+    }, []);
+
+    return (<div>
+                {displayImages 
+                    ? <ImageCollection imagePaths={props.imagePaths}/>
+                    : <div>Loading</div>}
+            </div>);
+}
+
+function ImageCollectionWithSelect(props) {
     const handleClickImage = (path, e) => {
         e.preventDefault();
         const prevVal = document.getElementById(path).style.display;
@@ -31,6 +54,7 @@ export default function FilteredDownload(props) {
     const [imagePaths, setImagePaths] = useState(null);
     const [displayX, setDisplayX] = useState({})
     const [displayTrain, setDisplayTrain] = useState(false)
+    const [displayPredictions, setDisplayPredictions] = useState(false)
 
     // const cors_url = 'https://cors-anywhere.herokuapp.com/';
     const downloadAndFilterImagesAsZip = (imagePaths, e) => {
@@ -44,34 +68,48 @@ export default function FilteredDownload(props) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ wantedImages: wantedImages, unwantedImages: unwantedImages })
-        });
-        setDisplayTrain(true);
+        })
+        .then(() => setDisplayTrain(false))
+        .then(() => setDisplayPredictions(true))
     }
 
     useEffect(() => {
         getImagePaths(props.searchText, props.quantity, props.safeSearch)
-        .then(imagePaths => {
+        .then(async imagePaths => {
             var temp = {};
             imagePaths.forEach(path => temp[path] = false);
-            setDisplayX(temp);
-            setImagePaths(imagePaths);
+            await setDisplayX(temp);
+            await setImagePaths(imagePaths);
+            return imagePaths;
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }, []);
 
     return(
         <div id="filtered-download-container">
             <HomeButton setDisplayFilteredDownload={props.setDisplayFilteredDownload}/>
-            {displayTrain 
-                ? "Training! Please be patient" 
-                : 
+            {displayPredictions
+            ? <DisplayPredictions 
+                    searchText={props.searchText}
+                    max_results={props.quantity}
+                    safesearch={props.safeSearch}
+                    imagePaths={imagePaths}
+                    setImagePaths={setImagePaths}
+                />
+            : 
                 <div>
-                    <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Start training</Button>
-                    <h1>Choose the pictures you like</h1>
-                    {imagePaths  
-                        ? <ImageCollectionWithSelect setDisplayX={setDisplayX} displayX={displayX} imagePaths={imagePaths} /> 
-                        : "Loading"
-                    }
+                        {displayTrain 
+                            ? "Training! Please be patient" 
+                            : 
+                            <div>
+                                <Button handleClick={(e)=>downloadAndFilterImagesAsZip(imagePaths, e)}>Start training</Button>
+                                <h1>Choose the pictures you want to remove</h1>
+                                {imagePaths  
+                                    ? <ImageCollectionWithSelect setDisplayX={setDisplayX} displayX={displayX} imagePaths={imagePaths} /> 
+                                    : "Loading"
+                                }
+                            </div>
+                        }
                 </div>
             }
         </div>

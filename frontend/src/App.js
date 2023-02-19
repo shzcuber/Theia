@@ -23,13 +23,14 @@ function App() {
     setDisplaySearchOptions(true);
   };
 
-  if(displayFilteredDownload)
+  if(displayFilteredDownload) {
     return (<FilteredDownload 
               setDisplayFilteredDownload={setDisplayFilteredDownload}
               searchText={searchText}
               safeSearch={safeSearch}
               quantity={quantity}
             />);
+  }
   else if(displaySimpleDownload)
     return (<SimpleDownload 
               setDisplaySimpleDownload={setDisplaySimpleDownload}

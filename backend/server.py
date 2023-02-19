@@ -40,9 +40,12 @@ def download_image(url, file_path, file_name):
   #some images are going to be broken, adding try and except is a good strategy
     try:
       full_path = file_path + file_name + '.jpg'
-      urllib.request.urlretrieve(url, full_path)
+    #   urllib.request.urlretrieve(url, full_path)
+      r = requests.get(url)
+      with open(full_path, 'wb') as outfile:
+        outfile.write(r.content)
     except Exception as e:
-      print("coudn't download")
+      print("coudn't download " + url)
       print(e)
 
 def delete_img(file_path, number=0):
@@ -111,34 +114,43 @@ def train():
 def predict():
     imagePath = request.args.get('imagePath') # link to img
     download_image(imagePath, 'data/', 'test')
-    return learn.predict(imagePath)=='wanted'
+    print(learn.predict('data/test.jpg'))
+    return learn.predict('data/test.jpg')=='wanted'
    
 
 @app.route('/generate')
 def generate():
-    total = request.args.get('total') # total images to generate
+    total = int(request.args.get('max_results')) # total images to generate
     keywords = request.args.get('keywords') 
     if(not keywords):
         return "INVALID REQUEST"
 
     safesearch = request.args.get('safesearch') or "Off" # On or Off
-    max_results = int(request.args.get('max_results')) or 100
     wantedImages = 0
 
+    global learn
     def isWanted(imagePath):
         download_image(imagePath, 'data/', 'test')
-        return learn.predict(imagePath)=='wanted'
+        try: 
+            print(imagePath+" downloaded")
+            print(learn.predict('data/test.jpg')[0])
+            return learn.predict('data/test.jpg')[0]=='wanted'
+        except Exception as e: 
+            print(e)
+            return False
 
     wantedImagePaths = []
     page=0
     while wantedImages<total:
         images = ddg_images(keywords, region='wt-wt', safesearch=safesearch, size=None, page=page,
-                    color='Monochrome', type_image=None, layout=None, license_image=None, max_results=max_results)
+                    color='Monochrome', type_image=None, layout=None, license_image=None)
+        print(page)
         for image in images:
             image = image['image']
             if isWanted(image):
-                wantedImagePaths.append()
+                wantedImagePaths.append(image)
                 wantedImages+=1
+                if wantedImages >= total: break
         page+=1
 
     return wantedImagePaths
