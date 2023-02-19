@@ -34,9 +34,14 @@ function MainForm(props) {
       props.setDisplaySimpleDownload(true);
   };
 
-  const handleFilteredSearch = () => {
-    if(props.searchText != "" && props.quantity != "")
-      props.setDisplayFilteredDownload(true);
+  const handleFilteredSearch = (e) => {
+    if(props.searchText != "" && props.quantity != "") {
+      if(parseInt(props.quantity) > 15) {
+        document.getElementById('home-quantity-error-msg').style.display = "block";
+      } else {
+        props.setDisplayFilteredDownload(true);
+      }
+    }
   };
   
   return (
@@ -53,6 +58,7 @@ function MainForm(props) {
           </span>
           <input type="number" max="100" value={props.quantity} onChange={(e) => props.setQuantity(parseInt(e.target.value))} required />
         </div>
+        <div id='home-quantity-error-msg' style={{ color: 'red', display: 'none' }}>Error: quantity must be smaller or equal to 15 for filtered search</div>
         <br />
         <div id="buttons">
           <Button handleClick={handleSimpleSearch}>
