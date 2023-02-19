@@ -11,36 +11,58 @@ export default function SimpleDownload(props) {
     const [loading, setLoading] = useState(false);
 
 
+    function b64toBlob(b64Data, contentType='', sliceSize=512) {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+    
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+    
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+    
+        const byteArray = new Uint8Array(byteNumbers);
+    
+        byteArrays.push(byteArray);
+      }
+    
+      const blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+    }
+
     useEffect(() => {
         getImagePaths(props.searchText, props.quantity, props.safeSearch)
         .then(imagePaths => setImagePaths(imagePaths))
         .catch(err => console.log(err));
     }, []);
 
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
     const downloadImagesAsZip = () => {
-        const zip = new JSZip();
-      
-        // Replace imageLinks with an array of your image links
-        const imageLinks = [
-          'http://www.1mg.com/articles/wp-content/uploads/2015/07/diagnostics-test-for-diabetic-patients-hba1c-2.jpg'
-        ];
-      
-        // Loop through each image link and add it to the zip file
-        imageLinks.forEach((link, index) => {
-          fetch(`http://localhost:3001/images/${encodeURIComponent(link)}?url=${encodeURIComponent('http://cors-anywhere.herokuapp.com/')}`)
-            .then(response => response.blob())
-            .then(blob => {
-              zip.file(`image_${index}.jpg`, blob);
-            });
-        });
-      
-        // Create the zip file and save it to the user's computer
-        zip.generateAsync({ type: 'blob' })
-          .then(blob => {
-            saveAs(blob, 'images.zip');
+      Promise.all(
+        imagePaths.map((imageUrl) => {
+          const url = `${proxyUrl}${imageUrl}`;
+          return fetch(url).then((response) => response.blob());
+        })
+      )
+        .then((blobs) => {
+          const zip = new JSZip();
+          blobs.forEach((blob, index) => {
+            zip.file(`image${index}.jpg`, blob);
           });
-      }
-      
+          return zip.generateAsync({ type: 'blob' });
+        })
+        .then((content) => {
+          saveAs(content, 'images.zip');
+        })
+        .catch((error) => {
+          console.error('Error downloading images', error);
+        });
+    };
+    
+  
 
 
     return (
