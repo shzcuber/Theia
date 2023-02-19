@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from './Button';
 import { getImagePaths } from '../util/getImagePaths';
+import { downloadImagesAsZip } from '../util/downloadImagesAsZip'
 import HomeButton from './HomeButton';
 import ImageCollection from './ImageCollection';
 import './FilteredDownload.css'
@@ -18,6 +19,8 @@ function DisplayPredictions(props) {
             keywords: props.searchText,
             max_results: imagesToGenerate,
             safesearch: (props.safeSearch ? "On" : "Off"),
+            color: props.color,
+            license: props.license
         }))
         .then(response => response.json())
         .then(imagePaths => props.setImagePaths(imagePaths))
@@ -34,7 +37,11 @@ function DisplayPredictions(props) {
                     <div>
                         {loadingDisplayImages 
                             ? "Loading images"
-                            : <ImageCollection imagePaths={props.imagePaths}/>
+                            : 
+                            <div> 
+                                <ImageCollection imagePaths={props.imagePaths}/>
+                                <Button handleClick={()=>downloadImagesAsZip(props.imagePaths)} disabled={loadingDisplayImages}>Download Images</Button>
+                            </div>
                         }
                    
                     </div>
@@ -91,7 +98,7 @@ export default function FilteredDownload(props) {
     }
 
     useEffect(() => {
-        getImagePaths(props.searchText, props.quantity, props.safeSearch)
+        getImagePaths(props.searchText, props.quantity, props.safeSearch, props.color, props.license)
         .then(async imagePaths => {
             var temp = {};
             imagePaths.forEach(path => temp[path] = false);
@@ -110,6 +117,8 @@ export default function FilteredDownload(props) {
                     searchText={props.searchText}
                     max_results={props.quantity}
                     safesearch={props.safeSearch}
+                    color={props.color}
+                    license={props.license}
                     imagePaths={imagePaths}
                     setImagePaths={setImagePaths}
                 />

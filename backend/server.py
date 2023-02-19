@@ -124,6 +124,8 @@ def predict():
 def generate():
     total = int(request.args.get('max_results')) # total images to generate
     keywords = request.args.get('keywords') 
+    license = request.args.get("license") or "None"
+    color = request.args.get("color") or "None"
     if(not keywords):
         return "INVALID REQUEST"
 
@@ -145,7 +147,7 @@ def generate():
     page=0
     while wantedImages<total:
         images = ddg_images(keywords, region='wt-wt', safesearch=safesearch, size=None, page=page,
-                    color='Monochrome', type_image=None, layout=None, license_image=None)
+                    color=color, type_image=None, layout=None, license_image=license)
         print(page)
         for image in images:
             image = image['image']
